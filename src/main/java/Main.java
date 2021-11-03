@@ -12,7 +12,7 @@ public class Main{
         boolean connected = false;
         SpecifikacijaSkladista impl;
         Scanner s = new Scanner(System.in);
-        List<String>list = new ArrayList<>();
+        List<Object>list = new ArrayList<>();
         //String argument = args[0];
 
 
@@ -34,7 +34,7 @@ public class Main{
                     list.add(ss);
                 }
 
-                if(list.get(0).equalsIgnoreCase("mkdir")) {
+                if(list.get(0).toString().equalsIgnoreCase("mkdir")) {
                     System.out.println(impl);
                     path = list.get(1) + "\\" + list.get(2);
 
@@ -56,13 +56,13 @@ public class Main{
                     }
                 }
 
-                switch (list.get(0)){
+                switch (list.get(0).toString()){
                     case ("-mnp"):
                         System.out.println("mnp");
                         break;
 
                     case("-cnfgEdit"):
-                        impl.updateConfig(path, list.get(1), list.get(2), list.get(3));
+                        impl.updateConfig(path, (int) list.get(1), (String) list.get(2), (int) list.get(3));
                         System.out.println(path + list.get(1) + list.get(2) + list.get(3));
                         break;
 
@@ -72,7 +72,7 @@ public class Main{
 
                 }
 
-                if (list.get(0).equalsIgnoreCase("dc")){
+                if (list.get(0).toString().equalsIgnoreCase("dc")){
                     break;
                 }
 
