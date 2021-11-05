@@ -67,7 +67,7 @@ public class Main{
                         break;
 
                     case("-addUser"):
-                        System.out.println("addUser");
+                        addUserProgram(path, impl);
                         break;
 
                 }
@@ -153,4 +153,35 @@ public class Main{
                 "4. Izadjite iz programa komanda: dc");
 
     }
+     public static void addUserProgram(String path, SpecifikacijaSkladista impl){
+         System.out.println("\nKako biste uneli novog korisnika ukucajte komandu: -add argumente: arg1 (name) arg2 (password) arg3 (privilege)" +
+                 "\nUkoliko ne zelite da dodajete vise ukucajte komandu -ret");
+
+         String username= null;
+         String password = null;
+         String privilege = null;
+         List<String> list = new ArrayList<>();
+         Scanner s1 = new Scanner(System.in);
+
+         String ar = s1.nextLine();
+         String[] ar1 = ar.split(" ");
+
+         for (String ss : ar1) {
+             list.add(ss);
+         }
+
+         username = list.get(1);
+         password = list.get(2);
+         privilege = list.get(3);
+
+         if(list.get(0).toString().equalsIgnoreCase("-add") && list.size()==4){
+             impl.addUser(path, username, password, privilege);
+             list.clear();
+         }else if(list.get(0).toString().equalsIgnoreCase("-ret")){
+             return;
+         }else{
+             System.out.println("\nKako biste uneli novog korisnika ukucajte komandu: -add argumente: arg1 (name) arg2 (password) arg3 (privilege)" +
+                     "\nUkoliko ne zelite da dodajete vise ukucajte komandu -ret");
+         }
+     }
 }
