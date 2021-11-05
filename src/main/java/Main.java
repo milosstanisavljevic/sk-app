@@ -58,7 +58,7 @@ public class Main{
 
                 switch (list.get(0).toString()){
                     case ("-mnp"):
-                        System.out.println("mnp");
+                        fileManipulation(path, impl);
                         break;
 
                     case("-cnfgEdit"):
@@ -97,11 +97,7 @@ public class Main{
         Scanner s1 = new Scanner(System.in);
 
         String ar = s1.nextLine();
-        String[] ar1 = ar.split(" ");
-
-        for (String ss : ar1){
-            list.add(ss);
-        }
+        list = parseFunction(ar);
 
         if(list.size() == 2){
 
@@ -131,11 +127,7 @@ public class Main{
         Scanner s1 = new Scanner(System.in);
 
         String ar = s1.nextLine();
-        String[] ar1 = ar.split(" ");
-
-        for (String ss : ar1) {
-            list.add(ss);
-        }
+        list = parseFunction(ar);
 
         if (list.size() == 2) {
 
@@ -163,25 +155,75 @@ public class Main{
          List<String> list = new ArrayList<>();
          Scanner s1 = new Scanner(System.in);
 
-         String ar = s1.nextLine();
-         String[] ar1 = ar.split(" ");
 
+         while (true) {
+
+             String ar = s1.nextLine();
+             list = parseFunction(ar);
+
+
+             if (list.get(0).equalsIgnoreCase("-add") && list.size() == 4) {
+                 username = list.get(1);
+                 password = list.get(2);
+                 privilege = list.get(3);
+                 impl.addUser(path, username, password, privilege);
+                 list.clear();
+             } else if (list.get(0).equalsIgnoreCase("-ret")) {
+                 return;
+             } else {
+                 System.out.println("%");
+                 System.out.println("\nKako biste uneli novog korisnika ukucajte komandu: -add argumente: arg1 (name) arg2 (password) arg3 (privilege)" +
+                         "\nUkoliko ne zelite da dodajete vise ukucajte komandu -ret");
+                 return;
+             }
+         }
+     }
+
+     public static void fileManipulation(String path, SpecifikacijaSkladista impl){
+
+         System.out.println("Usli ste u program manipulacija skladista\n" +
+                 "-Ukoliko zelite da dodate fajl ukucajte komandu: -add -file argument: filename .filetype\n" +
+                 "-Ukoliko zelite da dodate folder ukucajte komandu: -add -folder argument:  foldername \n" +
+                 "-Ukoliko zelite da dodate vise fajlova ukucajte komandu: -add -files argument:  numberOfFiles .filetype\n" +
+                 "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n");
+
+         List<String> list = new ArrayList<>();
+         Scanner s1 = new Scanner(System.in);
+
+         while(true){
+
+             String filename = null;
+             String foldername = null;
+             String filetype = null;
+             String ar = s1.nextLine();
+
+             list = parseFunction(ar);
+
+             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-file") && list.size() == 4){
+                 filetype = list.get(3);
+                 if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
+                     filename = list.get(2);
+                     impl.createFile(path, filename + filetype);
+                 }else{
+                     System.out.println("Ovaj tip fajla nije podrzan");
+                 }
+                 break;
+             }
+             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
+                 foldername = list.get(2);
+                 impl.createFolder(path, foldername);
+                 break;
+             }
+
+         }
+     }
+
+     public static List<String> parseFunction(String s){
+         List<String> list = new ArrayList<>();
+         String[] ar1 = s.split(" ");
          for (String ss : ar1) {
              list.add(ss);
          }
-
-         username = list.get(1);
-         password = list.get(2);
-         privilege = list.get(3);
-
-         if(list.get(0).toString().equalsIgnoreCase("-add") && list.size()==4){
-             impl.addUser(path, username, password, privilege);
-             list.clear();
-         }else if(list.get(0).toString().equalsIgnoreCase("-ret")){
-             return;
-         }else{
-             System.out.println("\nKako biste uneli novog korisnika ukucajte komandu: -add argumente: arg1 (name) arg2 (password) arg3 (privilege)" +
-                     "\nUkoliko ne zelite da dodajete vise ukucajte komandu -ret");
-         }
+         return list;
      }
 }
