@@ -196,14 +196,15 @@ public class Main{
          System.out.println(path);
 
          System.out.println("Usli ste u program manipulacija skladista\n" +
-                 "-Ukoliko zelite da dodate fajl ukucajte komandu: -add -file argument: filename .filetype\n" +
+                 "******\n-Ukoliko zelite da dodate fajl ukucajte komandu: -add -file argument: filename .filetype\n" +
                  "-Ukoliko zelite da dodate folder ukucajte komandu: -add -folder argument:  foldername \n" +
                  "-Ukoliko zelite da dodate vise fajlova ukucajte komandu: -add -files argument:  numberOfFiles .filetype\n" +
                  "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n\n" +
-                 "-Ukoliko zelite da obrisete folder ukucajte komandu: -delete -folder argument: foldername\n" +
-                 "-Ukoliko zelite da obrisete fajl ukucajte komandu: -delete -file argument: filename");
+                 "******\n-Ukoliko zelite da obrisete folder ukucajte komandu: -delete -folder argument: foldername\n" +
+                 "-Ukoliko zelite da obrisete fajl ukucajte komandu: -delete -file argument: filename\n\n" +
+                 "******\n-Ukoliko zelite da premestite fajl iz odredjenog foldera u drugi unesite komandu: -move argument: fromFolderName toFolderName fileName\n");
 
-         List<String> list = new ArrayList<>();
+         List<String> list;
          Scanner s1 = new Scanner(System.in);
 
          while(true){
@@ -249,8 +250,8 @@ public class Main{
              }
 
              if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folders") && list.size() == 3){
-                 numberOfFiles = Integer.parseInt(list.get(2));
-                 impl.createMoreFolders(path, numberOfFiles);
+                 numberOfFolders = Integer.parseInt(list.get(2));
+                 impl.createMoreFolders(path, numberOfFolders);
                  break;
              }
 
@@ -262,6 +263,10 @@ public class Main{
              if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-file") && list.size() == 3){
                  foldername = list.get(2);
                  impl.deleteFile(path, foldername);
+             }
+
+             if(list.get(0).equalsIgnoreCase("-move") && list.size() == 4){
+                 impl.moveFromTo(list.get(1), list.get(2), list.get(3));
              }
 
              System.out.println("Izasli ste iz programa za manipulaciju");
