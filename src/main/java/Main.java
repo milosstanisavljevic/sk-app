@@ -46,7 +46,8 @@ public class Main{
                                     "1. Manipulacija skladistem komanda: -mnp\n" +
                                     "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
                                     "3. Dodaj korisnika komanda: -addUser\n" +
-                                    "4. Izadjite iz programa komanda: dc");
+                                    "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
+                                    "5. Izadjite iz programa komanda: dc");
                         }else{
                             System.out.println("\nNemate pristup putanji ili niste uspesno uneli kredencijale");
                         }
@@ -68,6 +69,16 @@ public class Main{
 
                     case("-addUser"):
                         addUserProgram(path, impl);
+                        break;
+
+                    case("-cd"):
+                        path = path + "\\" + list.get(1).toString();
+                        System.out.println("\nUspesno ste se usli unutar foldera " + list.get(1).toString() + " izaberite sledece opcije\n" +
+                                "1. Manipulacija skladistem komanda: -mnp\n" +
+                                "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
+                                "3. Dodaj korisnika komanda: -addUser\n" +
+                                "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
+                                "5. Izadjite iz programa komanda: dc");
                         break;
 
                 }
@@ -142,7 +153,8 @@ public class Main{
                 "1. Manipulacija skladistem komanda: -mnp\n" +
                 "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
                 "3. Dodaj korisnika komanda: -addUser\n" +
-                "4. Izadjite iz programa komanda: dc");
+                "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
+                "5. Izadjite iz programa komanda: dc");
 
     }
      public static void addUserProgram(String path, SpecifikacijaSkladista impl){
@@ -181,11 +193,15 @@ public class Main{
 
      public static void fileManipulation(String path, SpecifikacijaSkladista impl){
 
+         System.out.println(path);
+
          System.out.println("Usli ste u program manipulacija skladista\n" +
                  "-Ukoliko zelite da dodate fajl ukucajte komandu: -add -file argument: filename .filetype\n" +
                  "-Ukoliko zelite da dodate folder ukucajte komandu: -add -folder argument:  foldername \n" +
                  "-Ukoliko zelite da dodate vise fajlova ukucajte komandu: -add -files argument:  numberOfFiles .filetype\n" +
-                 "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n");
+                 "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n\n" +
+                 "-Ukoliko zelite da obrisete folder ukucajte komandu: -delete -folder argument: foldername\n" +
+                 "-Ukoliko zelite da obrisete fajl ukucajte komandu: -delete -file argument: filename");
 
          List<String> list = new ArrayList<>();
          Scanner s1 = new Scanner(System.in);
@@ -195,6 +211,8 @@ public class Main{
              String filename = null;
              String foldername = null;
              String filetype = null;
+             int numberOfFiles = 0;
+             int numberOfFolders = 0;
              String ar = s1.nextLine();
 
              list = parseFunction(ar);
@@ -202,18 +220,52 @@ public class Main{
              if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-file") && list.size() == 4){
                  filetype = list.get(3);
                  if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
+                     System.out.println("Ovaj tip fajla nije podrzan");
+                 }else{
                      filename = list.get(2);
                      impl.createFile(path, filename + filetype);
-                 }else{
-                     System.out.println("Ovaj tip fajla nije podrzan");
                  }
+                 System.out.println("Izasli ste iz programa za manipulaciju");
                  break;
              }
+
+             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-files") && list.size() == 4){
+                 filetype = list.get(3);
+                 if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
+                     System.out.println("Ovaj tip fajla nije podrzan");
+                 }else{
+                     numberOfFiles = Integer.parseInt(list.get(2));
+                     impl.createMoreFiles(path, numberOfFiles, filetype);
+                 }
+                 System.out.println("Izasli ste iz programa za manipulaciju");
+                 break;
+             }
+
+
              if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
                  foldername = list.get(2);
                  impl.createFolder(path, foldername);
                  break;
              }
+
+             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folders") && list.size() == 3){
+                 numberOfFiles = Integer.parseInt(list.get(2));
+                 impl.createMoreFolders(path, numberOfFiles);
+                 break;
+             }
+
+             if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
+                 foldername = list.get(2);
+                 impl.deleteFolder(path, foldername);
+             }
+
+             if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-file") && list.size() == 3){
+                 foldername = list.get(2);
+                 impl.deleteFile(path, foldername);
+             }
+
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             break;
 
          }
      }
