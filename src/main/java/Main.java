@@ -202,77 +202,90 @@ public class Main{
                  "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n\n" +
                  "******\n-Ukoliko zelite da obrisete folder ukucajte komandu: -delete -folder argument: foldername\n" +
                  "-Ukoliko zelite da obrisete fajl ukucajte komandu: -delete -file argument: filename\n\n" +
-                 "******\n-Ukoliko zelite da premestite fajl iz odredjenog foldera u drugi unesite komandu: -move argument: fromFolderName toFolderName fileName\n");
+                 "******\n-Ukoliko zelite da premestite fajl iz odredjenog foldera u drugi unesite komandu: -move argument: fromFolderName toFolderName fileName\n" +
+                 "-Ukoliko zelite da skinete/download-ujete odredjeni fajl ukucajte komadnu: -download argument: putanja na kojoj se nalazi fajl\n");
 
          List<String> list;
          Scanner s1 = new Scanner(System.in);
 
-         while(true){
 
-             String filename = null;
-             String foldername = null;
-             String filetype = null;
-             int numberOfFiles = 0;
-             int numberOfFolders = 0;
-             String ar = s1.nextLine();
+         String filename = null;
+         String foldername = null;
+         String filetype = null;
+         int numberOfFiles = 0;
+         int numberOfFolders = 0;
+         String ar = s1.nextLine();
 
-             list = parseFunction(ar);
+         list = parseFunction(ar);
 
-             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-file") && list.size() == 4){
-                 filetype = list.get(3);
-                 if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
-                     System.out.println("Ovaj tip fajla nije podrzan");
-                 }else{
-                     filename = list.get(2);
-                     impl.createFile(path, filename + filetype);
-                 }
-                 System.out.println("Izasli ste iz programa za manipulaciju");
-                 break;
+         if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-file") && list.size() == 4){
+             filetype = list.get(3);
+             if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
+                 System.out.println("Ovaj tip fajla nije podrzan");
+             }else{
+                 filename = list.get(2);
+                 impl.createFile(path, filename + filetype);
              }
-
-             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-files") && list.size() == 4){
-                 filetype = list.get(3);
-                 if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
-                     System.out.println("Ovaj tip fajla nije podrzan");
-                 }else{
-                     numberOfFiles = Integer.parseInt(list.get(2));
-                     impl.createMoreFiles(path, numberOfFiles, filetype);
-                 }
-                 System.out.println("Izasli ste iz programa za manipulaciju");
-                 break;
-             }
-
-
-             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
-                 foldername = list.get(2);
-                 impl.createFolder(path, foldername);
-                 break;
-             }
-
-             if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folders") && list.size() == 3){
-                 numberOfFolders = Integer.parseInt(list.get(2));
-                 impl.createMoreFolders(path, numberOfFolders);
-                 break;
-             }
-
-             if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
-                 foldername = list.get(2);
-                 impl.deleteFolder(path, foldername);
-             }
-
-             if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-file") && list.size() == 3){
-                 foldername = list.get(2);
-                 impl.deleteFile(path, foldername);
-             }
-
-             if(list.get(0).equalsIgnoreCase("-move") && list.size() == 4){
-                 impl.moveFromTo(list.get(1), list.get(2), list.get(3));
-             }
-
              System.out.println("Izasli ste iz programa za manipulaciju");
-             break;
-
+             return;
          }
+
+         if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-files") && list.size() == 4){
+             filetype = list.get(3);
+             if(filetype.equalsIgnoreCase(impl.checkConfigType(path, "filetype").toString())) {
+                 System.out.println("Ovaj tip fajla nije podrzan");
+             }else{
+                 numberOfFiles = Integer.parseInt(list.get(2));
+                 impl.createMoreFiles(path, numberOfFiles, filetype);
+             }
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+
+         if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
+             foldername = list.get(2);
+             impl.createFolder(path, foldername);
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+         if(list.get(0).equalsIgnoreCase("-add") && list.get(1).equalsIgnoreCase("-folders") && list.size() == 3){
+             numberOfFolders = Integer.parseInt(list.get(2));
+             impl.createMoreFolders(path, numberOfFolders);
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-folder") && list.size() == 3){
+             foldername = list.get(2);
+             impl.deleteFolder(path, foldername);
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         if(list.get(0).equalsIgnoreCase("-delete") && list.get(1).equalsIgnoreCase("-file") && list.size() == 3){
+             filename = list.get(2);
+             impl.deleteFile(path, filename);
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         if(list.get(0).equalsIgnoreCase("-move") && list.size() == 4){
+             impl.moveFromTo(list.get(1), list.get(2), list.get(3));
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         if(list.get(0).equalsIgnoreCase("-download") && list.size() == 2){
+             impl.downloadFile(list.get(1));
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         System.out.println("Izasli ste iz programa za manipulaciju");
+         return;
+
+
      }
 
      public static List<String> parseFunction(String s){
