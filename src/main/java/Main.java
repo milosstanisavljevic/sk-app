@@ -35,7 +35,6 @@ public class Main{
                 }
 
                 if(list.get(0).toString().equalsIgnoreCase("mkdir")) {
-                    System.out.println(impl);
                     path = list.get(1) + "\\" + list.get(2);
 
                     if(impl.checkIfRootExists(path)){
@@ -47,7 +46,8 @@ public class Main{
                                     "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
                                     "3. Dodaj korisnika komanda: -addUser\n" +
                                     "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
-                                    "5. Izadjite iz programa komanda: dc");
+                                    "5. Izlistavanje fajlova i foldera skladista: -ls\n" +
+                                    "6. Izadjite iz programa komanda: exit");
                         }else{
                             System.out.println("\nNemate pristup putanji ili niste uspesno uneli kredencijale");
                         }
@@ -71,6 +71,10 @@ public class Main{
                         addUserProgram(path, impl);
                         break;
 
+                    case("-ls"):
+                        listProgram(path, impl);
+                        break;
+
                     case("-cd"):
                         path = path + "\\" + list.get(1).toString();
                         System.out.println("\nUspesno ste se usli unutar foldera " + list.get(1).toString() + " izaberite sledece opcije\n" +
@@ -78,12 +82,13 @@ public class Main{
                                 "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
                                 "3. Dodaj korisnika komanda: -addUser\n" +
                                 "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
-                                "5. Izadjite iz programa komanda: dc");
+                                "5. Izlistavanje fajlova i foldera skladista: -ls\n" +
+                                "6. Izadjite iz programa komanda: exit");
                         break;
 
                 }
 
-                if (list.get(0).toString().equalsIgnoreCase("dc")){
+                if (list.get(0).toString().equalsIgnoreCase("exit")){
                     break;
                 }
 
@@ -102,9 +107,9 @@ public class Main{
 
         System.out.println("\nUnesite username i password kako biste se ulogovali na vase skladiste");
 
-        String username = null;
-        String password = null;
-        List<String> list = new ArrayList<>();
+        String username;
+        String password;
+        List<String> list;
         Scanner s1 = new Scanner(System.in);
 
         String ar = s1.nextLine();
@@ -113,9 +118,7 @@ public class Main{
         if(list.size() == 2){
 
             username = list.get(0);
-            System.out.println("username: " + username);
             password = list.get(1);
-            System.out.println("password: " + password);
 
             if(impl.checkUser(path, username, password)){
                 list.clear();
@@ -154,9 +157,38 @@ public class Main{
                 "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
                 "3. Dodaj korisnika komanda: -addUser\n" +
                 "4. Ulazak u folder komanda: -cd parametar: folderName\n" +
-                "5. Izadjite iz programa komanda: dc");
+                "5. Izlistavanje fajlova i foldera skladista: -ls\n" +
+                "6. Izadjite iz programa komanda: exit");
 
     }
+
+    public static void listProgram(String path, SpecifikacijaSkladista impl){
+        System.out.println("-Ukoliko zelite da izlistate fajlove i direktorijume: ls 1");
+
+        List<String> list;
+        Scanner s1 = new Scanner(System.in);
+        String ar = s1.nextLine();
+        list = parseFunction(ar);
+
+        String[] files;
+
+        if(list.size()==2 && list.get(0).equalsIgnoreCase("ls")){
+            int number = Integer.parseInt(list.get(1));
+
+            switch (number){
+
+                case(1):
+                    files = impl.listFiles(path);
+
+                    for (String f: files) {
+                        System.out.println(f);
+                    }
+                    break;
+            }
+        }
+    }
+
+
      public static void addUserProgram(String path, SpecifikacijaSkladista impl){
          System.out.println("\nKako biste uneli novog korisnika ukucajte komandu: -add argumente: arg1 (name) arg2 (password) arg3 (privilege)" +
                  "\nUkoliko ne zelite da dodajete vise ukucajte komandu -ret");
