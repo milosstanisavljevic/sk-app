@@ -202,8 +202,9 @@ public class Main{
                  "-Ukoliko zelite da dodate vise foldera ukucajte komandu: -add -folders argument:  numberOfFolders\n\n" +
                  "******\n-Ukoliko zelite da obrisete folder ukucajte komandu: -delete -folder argument: foldername\n" +
                  "-Ukoliko zelite da obrisete fajl ukucajte komandu: -delete -file argument: filename\n\n" +
-                 "******\n-Ukoliko zelite da premestite fajl iz odredjenog foldera u drugi unesite komandu: -move argument: fromFolderName toFolderName fileName\n" +
-                 "-Ukoliko zelite da skinete/download-ujete odredjeni fajl ukucajte komadnu: -download argument: putanja na kojoj se nalazi fajl\n");
+                 "******\n-Ukoliko zelite da premestite fajl iz odredjenog foldera u drugi unesite komandu: -move argument: izKogFoldera uKojiFolder fileName\n" +
+                 "-Ukoliko zelite da skinete/download-ujete odredjeni fajl ukucajte komadnu: -download argument: putanja imeFajla\n" +
+                 "-Ukoliko zelite da kopirate fajl iz odredjenog foldera u drugi unesite komandu: -copy argument: izKogFoldera uKojiFolder fileName\n");
 
          List<String> list;
          Scanner s1 = new Scanner(System.in);
@@ -276,8 +277,14 @@ public class Main{
              return;
          }
 
-         if(list.get(0).equalsIgnoreCase("-download") && list.size() == 2){
-             impl.downloadFile(list.get(1));
+         if(list.get(0).equalsIgnoreCase("-copy") && list.size() == 4){
+             impl.copyPasteFiles(list.get(1), list.get(2), list.get(3));
+             System.out.println("Izasli ste iz programa za manipulaciju");
+             return;
+         }
+
+         if(list.get(0).equalsIgnoreCase("-download") && list.size() == 3){
+             impl.downloadFile(list.get(1), list.get(2));
              System.out.println("Izasli ste iz programa za manipulaciju");
              return;
          }
