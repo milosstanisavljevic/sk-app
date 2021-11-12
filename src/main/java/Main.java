@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -169,6 +170,7 @@ public class Main{
         Scanner s1 = new Scanner(System.in);
         String ar = s1.nextLine();
         list = parseFunction(ar);
+        List<String>sorted = new ArrayList<>();
 
         String[] files;
 
@@ -182,6 +184,26 @@ public class Main{
 
                     for (String f: files) {
                         System.out.println(f);
+                    }
+                    break;
+                case(2):
+                    files = impl.listFiles(path);
+                    for(String s:files){
+                        sorted.add(s);
+                    }
+                    Collections.sort(sorted);
+                    for (String s : sorted){
+                        System.out.println(s);
+                    }
+                    break;
+                case(3):
+                    files = impl.listFiles(path);
+                    for(String s:files){
+                        sorted.add(s);
+                    }
+                    Collections.sort(sorted,Collections.reverseOrder());
+                    for (String s : sorted){
+                        System.out.println(s);
                     }
                     break;
             }
