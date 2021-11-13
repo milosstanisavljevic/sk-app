@@ -30,6 +30,7 @@ public class Main{
 
                 String m = s.nextLine();
 
+
                 String[] a = m.split(" ");
                 for (String ss : a){
                     list.add(ss);
@@ -64,8 +65,11 @@ public class Main{
                         break;
 
                     case("-cnfgEdit"):
-                        impl.updateConfig(path, (int) list.get(1), (String) list.get(2), (int) list.get(3));
-                        System.out.println(path + list.get(1) + list.get(2) + list.get(3));
+                        if(impl.updateConfig(path, Integer.parseInt(list.get(1).toString()), (String) list.get(2), Integer.parseInt(list.get(3).toString()))){
+                            System.out.println("Uspesno ste promenili konfiguraciju sa kredencijalima: " + path + list.get(1) + list.get(2) + list.get(3));
+                        }else {
+                            System.out.println("Nemate privilegiju za promenu konfiguracije");
+                        }
                         break;
 
                     case("-addUser"):
@@ -232,7 +236,11 @@ public class Main{
                  username = list.get(1);
                  password = list.get(2);
                  privilege = list.get(3);
-                 impl.addUser(path, username, password, privilege);
+                 if(impl.addUser(path, username, password, privilege)){
+                     System.out.println("Uspesno ste dodali user-a " + username);
+                 }else{
+                     System.out.println("Nemate privilegiju za dodavanje user-a");
+                 }
                  list.clear();
              } else if (list.get(0).equalsIgnoreCase("-ret")) {
                  return;
