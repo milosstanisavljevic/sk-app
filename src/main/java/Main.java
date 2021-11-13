@@ -39,7 +39,7 @@ public class Main{
                     path = list.get(1) + "\\" + list.get(2);
 
                     if(impl.checkIfRootExists(path)){
-
+                        impl.loadUsers(path);
                         if(connectUser(path, impl)) {
                             connected = true;
                             System.out.println("\nUspesno ste se konektovali na skladiste, izaberite sledece opcije\n" +
