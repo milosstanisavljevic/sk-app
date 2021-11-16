@@ -24,7 +24,8 @@ public class Main{
                     "da napravite skladiste i imenom skladista");
 
 
-            Class.forName("LokalnoSkladiste");
+            //Class.forName("LokalnoSkladiste");
+            Class.forName("GoogleDriveSkladiste");
             impl = Manager.getImpl();
 
             while (true){
@@ -44,6 +45,7 @@ public class Main{
                     if(impl.checkIfRootExists(path)){
                         impl.loadUsers(path);
                         if(connectUser(path, impl)) {
+                            path = impl.getPath();
                             System.out.println("\nUspesno ste se konektovali na skladiste, izaberite sledece opcije\n" +
                                     "1. Manipulacija skladistem komanda: -mnp\n" +
                                     "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
@@ -57,6 +59,8 @@ public class Main{
 
                     }else {
                         connectSuperUser(path1, list.get(2), impl);
+                        path = impl.getPath();
+                        System.out.println(path);
                     }
                 }
 
@@ -109,7 +113,7 @@ public class Main{
 
     }
 
-    public static boolean connectUser(String path, SpecifikacijaSkladista impl){
+    public static boolean connectUser(String p, SpecifikacijaSkladista impl){
 
         System.out.println("\nUnesite username i password kako biste se ulogovali na vase skladiste");
 
@@ -126,7 +130,7 @@ public class Main{
             username = list.get(0);
             password = list.get(1);
 
-            if(impl.checkUser(path, username, password)){
+            if(impl.checkUser(p, username, password)){
                 list.clear();
                 return true;
             }
