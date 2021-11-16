@@ -10,6 +10,7 @@ public class Main{
         String username = null;
         String password = null;
         String path = null;
+        String path1 = null;
         boolean connected = false;
         SpecifikacijaSkladista impl;
         Scanner s = new Scanner(System.in);
@@ -38,6 +39,7 @@ public class Main{
 
                 if(list.get(0).equalsIgnoreCase("mkdir")) {
                     path = list.get(1) + "\\" + list.get(2);
+                    path1 = list.get(1);
 
                     if(impl.checkIfRootExists(path)){
                         impl.loadUsers(path);
@@ -54,7 +56,7 @@ public class Main{
                         }
 
                     }else {
-                        connectSuperUser(path, impl);
+                        connectSuperUser(path1, list.get(2), impl);
                     }
                 }
 
@@ -136,7 +138,7 @@ public class Main{
         }
     }
 
-    public static void connectSuperUser(String path, SpecifikacijaSkladista impl) {
+    public static void connectSuperUser(String path, String name, SpecifikacijaSkladista impl) {
         System.out.println("\nUnesite username i password kako biste se ulogovali na vase skladiste");
 
         String username = null;
@@ -155,7 +157,7 @@ public class Main{
             System.out.println("password: " + password);
         }
 
-        impl.createRoot(path, username, password);
+        impl.createRoot(path, name, username, password);
         System.out.println("\nVase skladiste je uspesno napravljeno, izaberite sledece opcije\n" +
                 "1. Manipulacija skladistem komanda: -mnp\n" +
                 "2. Izmeni konfiguraciju skladista komanda: -cnfgEdit parameteri: arg0 (size) arg1 (filetype) arg2 (maxFiles)\n" +
