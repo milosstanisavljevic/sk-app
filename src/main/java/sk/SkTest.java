@@ -1,15 +1,18 @@
+package sk;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main{
+public class SkTest {
 
 
     public static void main(String[] args) {
         String username = null;
         String password = null;
         String path = null;
+
         String path1 = null;
         boolean connected = false;
         SpecifikacijaSkladista impl;
@@ -19,14 +22,13 @@ public class Main{
 
 
         try {
+                Class.forName("sk.LokalnoSkladiste");
+                //Class.forName("sk.GoogleDriveSkladiste");
+                impl = Manager.getImpl();
 
             System.out.println("\nDa biste pokrenuli program ukucajte komandu mkdir zajedno za putanjom\nna kojoj zelite " +
                     "da napravite skladiste i imenom skladista");
 
-
-            //Class.forName("LokalnoSkladiste");
-            Class.forName("GoogleDriveSkladiste");
-            impl = Manager.getImpl();
 
             while (true){
 

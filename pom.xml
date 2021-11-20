@@ -7,6 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>sk-test-projekat</artifactId>
     <version>1.0-SNAPSHOT</version>
+<!--    <packaging>jar</packaging>-->
 
     <dependencies>
         <dependency>
@@ -66,9 +67,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>
-                                Main
-                            </mainClass>
+                            <mainClass>sk.SkTest</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
