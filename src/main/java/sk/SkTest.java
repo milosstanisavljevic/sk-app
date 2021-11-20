@@ -44,7 +44,7 @@ public class SkTest {
                     path = list.get(1) + "\\" + list.get(2);
                     path1 = list.get(1);
 
-                    if(impl.checkIfRootExists(path)){
+                    if(impl.checkIfRootExists(path, list.get(2))){
                         impl.loadUsers(path);
                         if(connectUser(path, impl)) {
                             path = impl.getPath();
